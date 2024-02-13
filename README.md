@@ -1,12 +1,12 @@
-# irc-bot-c
+# sysbot
 
-irc-bot-c is a simple IRC bot with basic functionalities, same as my irc-bot-nodejs but written in C
+sysbot is a simple IRC bot with basic functionalities, forked from [irc-bot-c](https://github.com/precla/irc-bot-c)
 
 ## Usage
-1. build & run with: ./irc-bot-c server.cfg
+1. build & run with: ./sysbot server.cfg
 
 ## Commands:
-- !sysinfo - get uptime and ram usage of the client
+- ?sysinfo - get uptime and ram usage of the client
 
 ### Done:
 - grab title from posted URL in irc channel
@@ -16,7 +16,6 @@ irc-bot-c is a simple IRC bot with basic functionalities, same as my irc-bot-nod
 - support for config file
 
 ## Dependencies:
-- libcurl: https://curl.haxx.se/libcurl/
 - libsrsirc: https://github.com/fstd/libsrsirc/
 
 ### License:

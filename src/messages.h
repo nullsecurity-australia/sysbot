@@ -1,6 +1,5 @@
 #pragma once
 
-#include "url_magic.h"
 #include "types.h"
 
 void interpret_message(irc *ircs, tokarr msg, user_config *ucfg);

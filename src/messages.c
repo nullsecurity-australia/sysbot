@@ -58,11 +58,11 @@ char *channel_message(tokarr msg) {
 
     fprintf(stdout, "Checking if the following parameter triggers any function: %s\n" , msg[3]);
 
-    if (!strncmp(msg[3], "!sysinfo", 9)) {
+    if (!strncmp(msg[3], "?sysinfo", 9)) {
         struct sysinfo info;
         char sysInfoMsg[MAXLENGTH];
 
-        fprintf(stdout, "match for !sysinfo... getting data ready *beep boop*\n");
+        fprintf(stdout, "match for ?sysinfo... getting data ready *beep boop*\n");
 
         if (!sysinfo(&info)) {
             int ret = snprintf(sysInfoMsg, MAXLENGTH,
@@ -81,35 +81,6 @@ char *channel_message(tokarr msg) {
         } else {
             fprintf(stderr, "Error in sysinfo() call, errno: %d\n", errno);
         }
-    } else if (msg[3]) {
-        if (check_message_for_url(msg[3])) {
-            free(response);
-            return NULL;
-        }
-
-        /*
-         * specialDomain - for special domains with extra features.
-         * See enum special_domains for the list of those domains and
-         * the corresponding index.
-         * It holds the index of the matched domain.
-         * if it stays '-1' it means no match for any of those
-         * notice: no need to check for "https://", reason:
-         * without that, it wouldn't have matched above in the
-         * call to check_message_for_url.
-         * if we have a match of a special domain, skip the
-         * rest of the checks, goto should be faster than
-         * comparing with if(specialdomain != -1 &&..)
-         */
-        short specialDomain = -1;
-
-        // check if yt link, except channel links
-        if (search_special_domains(msg[3], "(www.)?youtu(.)?be(.com)?[^[:space:]]+") == 0){
-            specialDomain = 0;
-        } else if (search_special_domains(msg[3], "(www.)?imdb.com[[:punct:]]title[^[:space:]]+") == 0){
-            specialDomain = 1;
-        }
-
-        strncat(response, (grab_url_data(msg[3], specialDomain)), MAXLENGTH);
     }
     if (response) {
         fprintf(stderr, "\nTime to execute succesfully: %f seconds.\n", (clock() - startTime)/(double)CLOCKS_PER_SEC );
@@ -168,14 +139,14 @@ void private_message(irc *ircs, tokarr msg) {
     strcpy(response, "PRIVMSG ");
     strncat(response, nickToReply, MAXLENGTH - strlen(nickToReply) - 13);
 
-    if (!strcmp(msg[3], "!h")) {
+    if (!strcmp(msg[3], "?h")) {
         /*
          * Find the starting position of the nick and move by
          * nick+1 chars, so it points to the end of that string.
          * helpText - use one space as the first char of string
          */
         char *replyTextStartPos = strstr(response, nickToReply) + strlen(nickToReply);
-        char helpText[HELPTEXTLINES][MAXLENGTH] = { " !sysinfo\n",
+        char helpText[HELPTEXTLINES][MAXLENGTH] = { " ?sysinfo\n",
                                                     " the end.\n" };
 
         for (unsigned int i = 0; i < HELPTEXTLINES; ++i) {
@@ -183,7 +154,7 @@ void private_message(irc *ircs, tokarr msg) {
             reply(ircs, response);
         }
     } else {
-        strncat(response, " !h for help", 13);
+        strncat(response, " ?h for help", 13);
         reply(ircs, response);
     }
     return;

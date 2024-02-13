@@ -1,7 +1,7 @@
-TARGET = irc-bot-c
+TARGET = sysbot
 CC = gcc
-CFLAGS = -Wall -std=c18 -pedantic
-LDLIBS = -lcurl -lsrsirc -lcrypto -lssl
+CFLAGS += -Wall -std=c18 -pedantic
+LDLIBS += -lcurl -lsrsirc -lcrypto -lssl
 SRC = $(wildcard *.c)
 SRCTOOBJ = $(patsubst %.c,%.o, $(SRC))
 DEST = build
