@@ -51,6 +51,8 @@ int main(int argc, char **argv) {
             fscanf(f, " %hu", &ucfg.port);
         } else if (!strcmp(checkCfgParameter, "ssl")) {
             fscanf(f, " %c", &ucfg.sslActive);
+        } else if (!strcmp(checkCfgParameter, "hide_host")) {
+            fscanf(f, " %c", &ucfg.hidehost);
         } else if (!strcmp(checkCfgParameter, "channel")) {
             fscanf(f, " %" STRLENGTH(MAXLENGTH) "s", ucfg.channel);
         } else if (!strcmp(checkCfgParameter, "nickserv_auth")) {
@@ -83,6 +85,12 @@ int main(int argc, char **argv) {
     }
 
     fprintf(stdout, "IRC server connection successfully created.\n");
+
+    if (ucfg.hidehost == 'n') {
+        irc_printf(ircs, "MODE -x+Bg");
+    } else {
+        irc_printf(ircs, "MODE +Bg");
+    }
 
     irc_printf(ircs, "JOIN %s", ucfg.channel);
 

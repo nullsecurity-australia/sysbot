@@ -20,5 +20,6 @@ typedef struct {
                     *serverPwd,
                     *nickservPwd;
     unsigned short  port;
-    char            sslActive;
+    char            sslActive,
+                    hidehost;
 } user_config;
